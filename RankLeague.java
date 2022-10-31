@@ -5,8 +5,6 @@ import java.util.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
-// import rankLeague.Team.*;
-
 public class RankLeague {
     private List<Team> teams;
     private int returnCode;

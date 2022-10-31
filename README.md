@@ -29,3 +29,5 @@ If two or more teams have the same number of points, they should have the same r
 <u>Expected output:</u><br />
 `1. Tarantulas, 6 pts` <br />`2. Lions, 5 pts` <br />`3. FC Awesome, 1 pt` <br />`3. Snakes, 1 pt` <br />`5. Grouches, 0 pts` <br />
 
+---
+Please note that the lack of multiple branches is intentional as I was working with limited time.
