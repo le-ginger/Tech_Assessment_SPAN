@@ -3,25 +3,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
     private static List<Team> teams;
-    private static boolean debug_mode;
     private static int returnCode;
 
     public static void main(String[] args) {
-        returnCode = 0;
-
-        // final String home = System.getProperty("user.home");
-        // final String path = home + File.separator + "Downloads" + File.separator + "input2.txt";
-
-    //    debug_mode = true;
-        debug_mode =false;
-
         List<String> games;
-
+        returnCode = 0;
         games = readFile();
 
         // -1 = file not found
@@ -129,7 +119,6 @@ public class Main {
         String dispStr = "";
         Team prev = null;
 
-
         while (iterator.hasNext()) {
             team_node = iterator.next();
 
@@ -142,49 +131,29 @@ public class Main {
             count++;
         }
 
-        debug_log("====================" + 
-                    System.lineSeparator() + 
-                    "prepared string for display"  + 
-                    System.lineSeparator() +
-                    "====================" +
-                    dispStr +
-                    System.lineSeparator()
-                    );
-
         return dispStr;
     }
 
     public static void updateScore(Team _team1, Team _team2, String outcome) {
         Iterator<Team> iterator = teams.iterator();
         Team team_node = null;
-        debug_log("updateScore with " + _team1.name + " vs " + _team2.name);
-        debug_log("outcome of the game: " + outcome);
 
         while (iterator.hasNext()) {
             team_node = iterator.next();
-            debug_log("loop node of teams arr -> " + team_node.name);
             if (team_node.name.equals(_team1.name)) {
-                debug_log("team1 = "+_team1.name + "\t" + outcome + " == " + _team1.name + " => " + Boolean.toString(outcome.equals(_team1.name)));
                 if (outcome.equals(_team1.name)) {
-                   debug_log("team1 won -> " + _team1.name + " wins + 1");
                     team_node.wins++;
                 } else if (outcome.equals(_team2.name)) {
-                    debug_log("team2 lost -> " + _team2.name + " losses + 1");
                     team_node.losses++;
                 } else {
-                    debug_log("update draw for "+team_node.name);
                     team_node.draws++;
                 }
             } else if (team_node.name.equals(_team2.name)) {
-                debug_log("team2 = " + _team2.name);
                 if (outcome.equals(_team2.name)) {
-                    debug_log("team2 ("+_team2.name+") wins");
                     team_node.wins++;
                 } else if (outcome.equals(_team1.name)) {
-                    debug_log("team1 ("+_team1.name+") losses");
                     team_node.losses++;
                 } else {
-                    debug_log("update draw for "+team_node.name);
                     team_node.draws++;
                 }
             }
@@ -192,10 +161,7 @@ public class Main {
     }
 
     public static boolean containsTeam(Team _search_team) {
-        debug_log("containsTeam -> looking for " + _search_team.name);
-        boolean res = teams.stream().anyMatch(obj -> obj.name.contains(_search_team.name));
-        debug_log(Boolean.toString(res));
-        return res;
+        return teams.stream().anyMatch(obj -> obj.name.contains(_search_team.name));
     }
 
     public static String determineOutcome(String[] game) {
@@ -216,11 +182,6 @@ public class Main {
 
     public static void log(String msg) {
         System.out.println(msg);
-    }
-
-    public static void debug_log(String msg) {
-        if (debug_mode)
-            System.out.println(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date()) + "\t" + msg);
     }
 
     public static class Team {
@@ -246,15 +207,7 @@ public class Main {
         }
 
         public String toString() {
-            if (!debug_mode)
-                return this.name + ", " + score + " pts";// + System.lineSeparator();
-            else
-                return System.lineSeparator() +
-                       "Team name: " + this.name + System.lineSeparator() +
-                       "Wins:      " + this.wins + System.lineSeparator() +
-                       "Losses:    " + this.losses + System.lineSeparator() +
-                       "Draws:     " + this.draws + System.lineSeparator() +
-                        "===========================";
+            return this.name + ", " + score + " pts";
         }
 
         public int getScore() {
